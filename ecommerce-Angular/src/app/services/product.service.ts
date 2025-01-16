@@ -7,7 +7,9 @@ import { Product } from '../common/product';
   providedIn: 'root'
 })
 export class ProductService {
+
   private baseUrl = "http://localhost:8080/api/products";
+  
   constructor(private httpClient: HttpClient) { }
 
   getProductList(): Observable<Product[]>{
@@ -17,8 +19,8 @@ export class ProductService {
   } 
 }
 
-interface GetResponse{
-  _embedded:{
+interface GetResponse {
+  _embedded: {
     products: Product[];
   }
 }
