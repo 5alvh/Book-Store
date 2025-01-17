@@ -3,6 +3,7 @@ package com._alvh.eCommerce.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,10 +12,15 @@ import java.util.Date;
 @Table(name = "product")
 @Data
 public class Product {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private ProductCategory category;
 
     @Column(name = "sku")
     private String sku;
@@ -38,13 +44,11 @@ public class Product {
     private int unitsInStock;
 
     @Column(name = "date_created")
-    @CreationTimestamp //Hibernate will automatically manage the timeStamp
+    @CreationTimestamp
     private Date dateCreated;
 
     @Column(name = "last_updated")
+    @UpdateTimestamp
     private Date lastUpdated;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private ProductCategory category;
+    
 }
