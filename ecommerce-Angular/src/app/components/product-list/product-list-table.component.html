@@ -10,7 +10,7 @@
     <tbody>
         <tr *ngFor="let tempProduct of products">
             <td class="align-middle">
-                <img src="assets/images/products/placeholder.png">
+                <img src="{{tempProduct.imageUrl}}">
             </td>
             <td class="align-middle">{{tempProduct.name}}</td>
             <td class="align-middle">{{tempProduct.unitPrice | currency:'USD'}}</td>
