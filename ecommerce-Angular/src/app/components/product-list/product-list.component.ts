@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductListComponent implements OnInit{
 
-  @Input() category!:string;
+  searchMode: boolean = false;
   products: Product[] = [];
   currentCategoryId: number = 1;
   constructor(private productService: ProductService, private route: ActivatedRoute){
@@ -29,26 +29,46 @@ export class ProductListComponent implements OnInit{
 
   listProducts(): void {
 
-    //check if "id" parameter is available
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-    
-    if(hasCategoryId){
-      //get the "id" param string. convert string to a number using the "+"
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    if(this.searchMode){
+      this.handleSearchProducts();
     }else{
-      //not category available ... default id is 1
+      this.handleListProducts();
     }
+    
 
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data => {
-        this.products = data;
-        console.log(this.products)
-      },
-      error => {
-        console.error('Error fetching product data', error);
+  }
+
+  handleSearchProducts(){
+    const theKeyword: string= this.route.snapshot.paramMap.get('keyword')!;
+
+    //now search for the products using keywords
+    this.productService.searchProducts(theKeyword).subscribe(
+      data=>{
+        this.products= data;
       }
-    );
-
+    )
+  }
+  handleListProducts(){
+     //check if "id" parameter is available
+     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+    
+     if(hasCategoryId){
+       //get the "id" param string. convert string to a number using the "+"
+       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+     }else{
+       //not category available ... default id is 1
+     }
+ 
+     this.productService.getProductList(this.currentCategoryId).subscribe(
+       data => {
+         this.products = data;
+         console.log(this.products)
+       },
+       error => {
+         console.error('Error fetching product data', error);
+       }
+     );
   }
 
 
