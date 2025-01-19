@@ -18,13 +18,9 @@ export class ProductListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    
-    this.route.paramMap.subscribe(()=>{
+    this.route.paramMap.subscribe(() => {
       this.listProducts();
-    }  
-    )
-
+    });
   }
 
   listProducts(): void {
@@ -58,17 +54,14 @@ export class ProductListComponent implements OnInit{
        this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
      }else{
        //not category available ... default id is 1
+       this.currentCategoryId = 1;
      }
  
      this.productService.getProductList(this.currentCategoryId).subscribe(
-       data => {
-         this.products = data;
-         console.log(this.products)
-       },
-       error => {
-         console.error('Error fetching product data', error);
-       }
-     );
+      data => {
+        this.products = data;
+      }
+    )  
   }
 
 
