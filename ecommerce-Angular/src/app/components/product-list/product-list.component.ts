@@ -15,6 +15,12 @@ export class ProductListComponent implements OnInit{
   products: Product[] = [];
   previousCategoryId: number = 1;
   currentCategoryId: number = 1;
+
+  //new properties for pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 10;
+  theTotalElements:number = 0;
+
   constructor(private productService: ProductService, private route: ActivatedRoute){
   }
 
@@ -25,10 +31,7 @@ export class ProductListComponent implements OnInit{
   }
 
 
-  //new properties for pagination
-  thePageNumber: number = 1;
-  thePageSize: number = 10;
-  theTotalElements:number = 0;
+  
 
 
   listProducts(): void {
@@ -66,7 +69,7 @@ export class ProductListComponent implements OnInit{
      }
      //
      // check if we have a different category than previous
-     //note: angular will reuse a component if its is currently being viewed
+     // note: angular will reuse a component if its is currently being viewed
      //
      
      //if we have a different category id than previous
