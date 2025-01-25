@@ -19,9 +19,28 @@
                         <td>
                             <div class="items">
                                 <label>Quantity:</label>
-                                {{ cartItem.quantity }}
+
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-sm" (click)="incrementQuantity(cartItem)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col ml-4 mr-2">
+                                        {{cartItem.quantity}}
+                                    </div>
+
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-sm" (click)="decrementQuantity(cartItem)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="col-8"></div>
+                                </div>
                             </div>
 
+                            <button class="btn btn-primary btn-sm mt-2" (click)="remove(cartItem)">Remove</button>
                             <p class="mt-2">Subtotal: {{cartItem.quantity * cartItem.unitPrice | currency:'USD'}}</p>
                         </td>
                     </tr>

@@ -10,6 +10,7 @@ import { CartService } from '../../services/cart.service';
 })
 export class CarDetailsComponent implements OnInit{
 
+
   cartItems: CartItem[]=[];
   totalPrice: number = 0;
   totalQuantity: number = 0;
@@ -37,5 +38,17 @@ export class CarDetailsComponent implements OnInit{
 
     // compute cart total price and quantity
     this.cartService.computeCartTotals();
+  }
+
+  incrementQuantity(cartItem: CartItem) {
+    this.cartService.addCart(cartItem)
+  }
+
+  decrementQuantity(cartItem: CartItem) {
+    this.cartService.decrementQuantity(cartItem)
+  }
+
+  remove(cartItem: CartItem) {
+    this.cartService.remove(cartItem)
   }
 }
