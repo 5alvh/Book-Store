@@ -7,10 +7,10 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Table(name = "product_category")
+@Table(name="product_category")
+// @Data -- known bug
 @Getter
 @Setter
-// @Data --> Bug in relationships
 public class ProductCategory {
 
     @Id
@@ -23,4 +23,5 @@ public class ProductCategory {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Set<Product> products;
+
 }

@@ -8,21 +8,20 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './car-details.component.html',
   styleUrl: './car-details.component.scss'
 })
-export class CarDetailsComponent implements OnInit{
+export class CarDetailsComponent implements OnInit {
 
-
-  cartItems: CartItem[]=[];
+  cartItems: CartItem[] = [];
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
-  constructor(private cartService: CartService){
+  constructor(private cartService: CartService) { }
 
-  }
   ngOnInit(): void {
     this.listCartDetails();
   }
+
   listCartDetails() {
-    
+
     // get a handle to the cart items
     this.cartItems = this.cartService.cartItems;
 
@@ -32,7 +31,7 @@ export class CarDetailsComponent implements OnInit{
     );
 
     // subscribe to the cart totalQuantity
-    this.cartService.totalQuantity.subscribe(
+    this.cartService.totalQuantity.subscribe( 
       data => this.totalQuantity = data
     );
 
@@ -40,15 +39,15 @@ export class CarDetailsComponent implements OnInit{
     this.cartService.computeCartTotals();
   }
 
-  incrementQuantity(cartItem: CartItem) {
-    this.cartService.addCart(cartItem)
+  incrementQuantity(theCartItem: CartItem) {
+    this.cartService.addToCart(theCartItem);
   }
 
-  decrementQuantity(cartItem: CartItem) {
-    this.cartService.decrementQuantity(cartItem)
+  decrementQuantity(theCartItem: CartItem) {
+    this.cartService.decrementQuantity(theCartItem);
   }
 
-  remove(cartItem: CartItem) {
-    this.cartService.remove(cartItem)
+  remove(theCartItem: CartItem) {
+    this.cartService.remove(theCartItem);
   }
 }

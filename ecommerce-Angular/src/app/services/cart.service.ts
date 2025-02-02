@@ -6,85 +6,95 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  
-  cartItems: CartItem[]=[];
+
+  cartItems: CartItem[] = [];
 
   totalPrice: Subject<number> = new Subject<number>();
   totalQuantity: Subject<number> = new Subject<number>();
+
   constructor() { }
 
-  addCart(theCartItem: CartItem){
+  addToCart(theCartItem: CartItem) {
+
     // check if we already have the item in our cart
     let alreadyExistsInCart: boolean = false;
     let existingCartItem: CartItem | undefined = undefined;
 
-    if(this.cartItems.length>0){
-    // find the item in the cart based on item id
-    /*for(let item of this.cartItems){
-      if(item.id == theCartItem.id){
-        existingCartItem = item;
-      }
-    }*/
-    existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id)
-    // check if we found it
-    alreadyExistsInCart = (existingCartItem != undefined)
+    if (this.cartItems.length > 0) {
+      // find the item in the cart based on item id
+
+      existingCartItem = this.cartItems.find( tempCartItem => tempCartItem.id === theCartItem.id );
+
+      // check if we found it
+      alreadyExistsInCart = (existingCartItem != undefined);
     }
 
-    if(alreadyExistsInCart){
+    if (alreadyExistsInCart) {
       // increment the quantity
       existingCartItem!.quantity++;
-    }else{
-      // just add the item to the array+
+    }
+    else {
+      // just add the item to the array
       this.cartItems.push(theCartItem);
     }
 
-    //compute cart total price and total quantity
+    // compute cart total price and total quantity
     this.computeCartTotals();
   }
+
   computeCartTotals() {
+
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
 
-    for(let currentCartItem of this.cartItems){
+    for (let currentCartItem of this.cartItems) {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
       totalQuantityValue += currentCartItem.quantity;
     }
 
-    //send new data to subscribers
+    // publish the new values ... all subscribers will receive the new data
     this.totalPrice.next(totalPriceValue);
-    this.totalQuantity.next(totalQuantityValue)
+    this.totalQuantity.next(totalQuantityValue);
 
+    // log cart data just for debugging purposes
     this.logCartData(totalPriceValue, totalQuantityValue);
   }
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
+
     console.log('Contents of the cart');
-    for(let tempCartItem of this.cartItems){
+    for (let tempCartItem of this.cartItems) {
       const subTotalPrice = tempCartItem.quantity * tempCartItem.unitPrice;
-      console.log(`name:${tempCartItem.name}, unitPrice=${tempCartItem.quantity}, unitPrice=${tempCartItem.unitPrice}, subTotalPrice=${subTotalPrice}`);
+      console.log(`name: ${tempCartItem.name}, quantity=${tempCartItem.quantity}, unitPrice=${tempCartItem.unitPrice}, subTotalPrice=${subTotalPrice}`);
     }
 
     console.log(`totalPrice: ${totalPriceValue.toFixed(2)}, totalQuantity: ${totalQuantityValue}`);
-    console.log("----------------------------")
+    console.log('----');
   }
 
-  decrementQuantity(cartItem: CartItem) {
-    cartItem.quantity--;
+  decrementQuantity(theCartItem: CartItem) {
 
-    if(cartItem.quantity===0){
-      this.remove(cartItem)
-    }else{
-      this.computeCartTotals()
+    theCartItem.quantity--;
+
+    if (theCartItem.quantity === 0) {
+      this.remove(theCartItem);
     }
-  }
-  remove(cartItem: CartItem) {
-    // get index of item in the array
-    const index = this.cartItems.findIndex(theCartItem=> theCartItem.id === cartItem.id);
-
-    // if found, remove the item from the array at the given index
-    if(index > -1){
-      this.cartItems.splice(index,1)
+    else {
       this.computeCartTotals();
     }
   }
+
+  remove(theCartItem: CartItem) {
+
+    // get index of item in the array
+    const itemIndex = this.cartItems.findIndex( tempCartItem => tempCartItem.id === theCartItem.id );
+
+    // if found, remove the item from the array at the given index
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+
+      this.computeCartTotals();
+    }
+  }
+
 }
