@@ -49,8 +49,8 @@
                         </div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
-                                    <option value="">A HACER</option>
+                                <select formControlName="country" (change)="handleStates('shippingAdress')">
+                                    <option *ngFor="let country of countries" [ngValue]="country">{{ country.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
-                                    <option value="">A HACER</option>
+                                    <option *ngFor="let state of shippingAdressStates" [ngValue]="state">{{state.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -119,8 +119,8 @@
                     </div>
                     <div class="col-md-9">
                         <div class="input-space">
-                            <select formControlName="country">
-                                <option value="">A HACER</option>
+                            <select formControlName="country" (change)="handleStates('billingAdress')">
+                                <option *ngFor="let country of countries" [ngValue]="country" >{{ country.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                     <div class="col-md-9">
                         <div class="input-space">
                             <select formControlName="state">
-                                <option value="">A HACER</option>
+                                <option *ngFor="let state of billingAdressStates" [ngValue]="state">{{state.name}}</option>
                             </select>
                         </div>
                     </div>
