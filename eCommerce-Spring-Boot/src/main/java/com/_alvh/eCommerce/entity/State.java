@@ -1,24 +1,30 @@
 package com._alvh.eCommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 @Entity
-@Table(name = "state")
-@Getter
-@Setter
+@Table(name="state")
+@Data
 public class State {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name="id")
     private int id;
 
-    @Column(name = "name")
+    @Column(name="name")
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name="country_id")
     private Country country;
+
 }
+
+
+
+
+
+
